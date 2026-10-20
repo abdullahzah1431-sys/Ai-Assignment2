@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% macro selected(name, value, default='') -%}{% if form_data.get(name, default) == value %}selected{% endif %}{%- endmacro %}
+<div class="page-shell">
+    <header class="hero">
+        <div>
+            <p class="eyebrow">Artificial Intelligence - Assignment 2</p>
+            <h1>Customer Churn Prediction</h1>
+            <p class="subtitle">Enter the customer details below. The trained Assignment 1 model will predict whether the customer is likely to churn.</p>
+        </div>
+        <div class="model-badge">Logistic Regression</div>
+    </header>
+
+    {% if error %}
+    <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+    <div class="result-card {{ 'risk' if result == 'Churn' else 'safe' }}">
+        <div>
+            <span class="result-label">Prediction</span>
+            <strong>{{ result }}</strong>
+        </div>
+        <div class="probability">
+            <span>Churn probability</span>
+            <b>{{ '%.1f'|format(probability * 100) }}%</b>
+        </div>
+    </div>
+    {% endif %}
+
+    <form method="post" class="form-card">
+        <h2>Customer Information</h2>
+        <div class="grid">
+            <label>Gender
+                <select name="gender" required>
+                    <option value="Female" {{ selected('gender', 'Female', 'Female') }}>Female</option><option value="Male" {{ selected('gender', 'Male') }}>Male</option>
+                </select>
+            </label>
+            <label>Senior Citizen
+                <select name="SeniorCitizen" required>
+                    <option value="0" {{ selected('SeniorCitizen', '0', '0') }}>No</option><option value="1" {{ selected('SeniorCitizen', '1') }}>Yes</option>
+                </select>
+            </label>
+            <label>Partner
+                <select name="Partner" required><option {{ selected('Partner', 'No', 'No') }}>No</option><option {{ selected('Partner', 'Yes') }}>Yes</option></select>
+            </label>
+            <label>Dependents
+                <select name="Dependents" required><option {{ selected('Dependents', 'No', 'No') }}>No</option><option {{ selected('Dependents', 'Yes') }}>Yes</option></select>
+            </label>
+            <label>Tenure (months)
+                <input type="number" name="tenure" min="0" max="100" value="{{ form_data.get('tenure', '2') }}" required>
+            </label>
+            <label>Phone Service
+                <select name="PhoneService" required><option {{ selected('PhoneService', 'Yes', 'Yes') }}>Yes</option><option {{ selected('PhoneService', 'No') }}>No</option></select>
+            </label>
+            <label>Multiple Lines
+                <select name="MultipleLines" required>
+                    <option {{ selected('MultipleLines', 'No', 'No') }}>No</option><option {{ selected('MultipleLines', 'Yes') }}>Yes</option><option {{ selected('MultipleLines', 'No phone service') }}>No phone service</option>
+                </select>
+            </label>
+            <label>Internet Service
+                <select name="InternetService" required>
+                    <option {{ selected('InternetService', 'Fiber optic', 'Fiber optic') }}>Fiber optic</option><option {{ selected('InternetService', 'DSL') }}>DSL</option><option {{ selected('InternetService', 'No') }}>No</option>
+                </select>
+            </label>
+            <label>Online Security
+                <select name="OnlineSecurity" required>
+                    <option {{ selected('OnlineSecurity', 'No', 'No') }}>No</option><option {{ selected('OnlineSecurity', 'Yes') }}>Yes</option><option {{ selected('OnlineSecurity', 'No internet service') }}>No internet service</option>
+                </select>
+            </label>
+            <label>Online Backup
+                <select name="OnlineBackup" required>
+                    <option {{ selected('OnlineBackup', 'No', 'No') }}>No</option><option {{ selected('OnlineBackup', 'Yes') }}>Yes</option><option {{ selected('OnlineBackup', 'No internet service') }}>No internet service</option>
+                </select>
+            </label>
+            <label>Device Protection
+                <select name="DeviceProtection" required>
+                    <option {{ selected('DeviceProtection', 'No', 'No') }}>No</option><option {{ selected('DeviceProtection', 'Yes') }}>Yes</option><option {{ selected('DeviceProtection', 'No internet service') }}>No internet service</option>
+                </select>
+            </label>
+            <label>Tech Support
+                <select name="TechSupport" required>
+                    <option {{ selected('TechSupport', 'No', 'No') }}>No</option><option {{ selected('TechSupport', 'Yes') }}>Yes</option><option {{ selected('TechSupport', 'No internet service') }}>No internet service</option>
+                </select>
+            </label>
+            <label>Streaming TV
+                <select name="StreamingTV" required>
+                    <option {{ selected('StreamingTV', 'No', 'No') }}>No</option><option {{ selected('StreamingTV', 'Yes') }}>Yes</option><option {{ selected('StreamingTV', 'No internet service') }}>No internet service</option>
+                </select>
+            </label>
+            <label>Streaming Movies
+                <select name="StreamingMovies" required>
+                    <option {{ selected('StreamingMovies', 'No', 'No') }}>No</option><option {{ selected('StreamingMovies', 'Yes') }}>Yes</option><option {{ selected('StreamingMovies', 'No internet service') }}>No internet service</option>
+                </select>
+            </label>
+            <label>Contract
+                <select name="Contract" required>
+                    <option {{ selected('Contract', 'Month-to-month', 'Month-to-month') }}>Month-to-month</option><option {{ selected('Contract', 'One year') }}>One year</option><option {{ selected('Contract', 'Two year') }}>Two year</option>
+                </select>
+            </label>
+            <label>Paperless Billing
+                <select name="PaperlessBilling" required><option {{ selected('PaperlessBilling', 'Yes', 'Yes') }}>Yes</option><option {{ selected('PaperlessBilling', 'No') }}>No</option></select>
+            </label>
+            <label class="wide">Payment Method
+                <select name="PaymentMethod" required>
+                    <option {{ selected('PaymentMethod', 'Electronic check', 'Electronic check') }}>Electronic check</option>
+                    <option {{ selected('PaymentMethod', 'Mailed check') }}>Mailed check</option>
+                    <option {{ selected('PaymentMethod', 'Bank transfer (automatic)') }}>Bank transfer (automatic)</option>
+                    <option {{ selected('PaymentMethod', 'Credit card (automatic)') }}>Credit card (automatic)</option>
+                </select>
+            </label>
+            <label>Monthly Charges
+                <input type="number" name="MonthlyCharges" min="0" step="0.01" value="{{ form_data.get('MonthlyCharges', '85.00') }}" required>
+            </label>
+            <label>Total Charges <small>(can be blank for a new customer)</small>
+                <input type="number" name="TotalCharges" min="0" step="0.01" value="{{ form_data.get('TotalCharges', '170.00') }}">
+            </label>
+        </div>
+        <button type="submit">Predict Churn</button>
+    </form>
+
+    <footer>University of Lahore - Customer Churn Prediction Web Application</footer>
+</div>
+</body>
+</html>

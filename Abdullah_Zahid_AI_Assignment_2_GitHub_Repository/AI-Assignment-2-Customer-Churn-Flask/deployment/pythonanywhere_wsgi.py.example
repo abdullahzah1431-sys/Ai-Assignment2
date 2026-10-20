@@ -1,0 +1,8 @@
+# Replace YOUR_USERNAME with your PythonAnywhere username.
+import sys
+
+project_home = '/home/YOUR_USERNAME/customer_churn_flask'
+if project_home not in sys.path:
+    sys.path.insert(0, project_home)
+
+from app import app as application

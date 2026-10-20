@@ -1,0 +1,25 @@
+ASSIGNMENT 2 FINAL CHECKLIST
+
+Already included in this project:
+[OK] Assignment 1 Logistic Regression model carried forward
+[OK] Same preprocessing pipeline saved inside model.joblib
+[OK] Flask backend (app.py)
+[OK] Input validation and error handling
+[OK] HTML form and CSS styling
+[OK] Saved model and metadata
+[OK] Local prediction test with churn and no-churn examples
+[OK] requirements.txt
+[OK] PythonAnywhere WSGI example
+[OK] Dataset and train_model.py for reproducibility
+
+Must be completed in your own PythonAnywhere account before final university submission:
+[ ] Upload the project
+[ ] Install requirements
+[ ] Configure WSGI / virtual environment
+[ ] Reload the web app
+[ ] Test the public URL
+[ ] Add the live URL to the report
+[ ] Capture the PythonAnywhere configuration screenshot
+[ ] Capture the final public website screenshot
+
+Do not submit a fake URL or fake deployment screenshot.
